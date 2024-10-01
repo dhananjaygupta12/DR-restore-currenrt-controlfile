@@ -1,0 +1,302 @@
+                  RESTORE DATA GURAD to current controlfile';
+				  
+					
+					
+					take backup -----------------------------------
+					
+					RMAN> run
+{
+allocate channel ch1 device type disk;
+crosscheck archivelog all;
+backup as compressed backupset database format '/u01/backup/rman/Fullback_%T_%U'
+plus archivelog format '/u01/backup/rman/Archive_%T_%U';
+2> 3> 4> 5> backup current controlfile format '/u01/backup/rman/Controlback_%T_%U';
+release channel ch1;
+}
+6> 7> 8> 9>
+using target database control file instead of recovery catalog
+allocated channel: ch1
+channel ch1: SID=18 device type=DISK
+
+validation succeeded for archived log
+archived log file name=/u01/app/oracle/fast_recovery_area/PRIMARY/archivelog/2024_10_01/o1_mf_1_5_mhq9n1mh_.arc RECID=1 STAMP=1181187394
+validation succeeded for archived log
+archived log file name=/u01/app/oracle/fast_recovery_area/PRIMARY/archivelog/2024_10_01/o1_mf_1_6_mhq9opq8_.arc RECID=2 STAMP=1181187446
+validation succeeded for archived log
+archived log file name=/u01/app/oracle/fast_recovery_area/PRIMARY/archivelog/2024_10_01/o1_mf_1_7_mhqgqlnk_.arc RECID=3 STAMP=1181192626
+validation succeeded for archived log
+archived log file name=/u01/app/oracle/fast_recovery_area/PRIMARY/archivelog/2024_10_01/o1_mf_1_8_mhqkkvv7_.arc RECID=4 STAMP=1181195515
+validation succeeded for archived log
+archived log file name=/u01/app/oracle/fast_recovery_area/PRIMARY/archivelog/2024_10_01/o1_mf_1_9_mhqkl6rw_.arc RECID=5 STAMP=1181195526
+validation succeeded for archived log
+archived log file name=/u01/app/oracle/fast_recovery_area/PRIMARY/archivelog/2024_10_01/o1_mf_1_10_mhqqj78b_.arc RECID=6 STAMP=1181201607
+Crosschecked 6 objects
+
+
+
+Starting backup at 01-OCT-24
+current log archived
+channel ch1: starting compressed archived log backup set
+channel ch1: specifying archived log(s) in backup set
+input archived log thread=1 sequence=5 RECID=1 STAMP=1181187394
+input archived log thread=1 sequence=6 RECID=2 STAMP=1181187446
+input archived log thread=1 sequence=7 RECID=3 STAMP=1181192626
+input archived log thread=1 sequence=8 RECID=4 STAMP=1181195515
+input archived log thread=1 sequence=9 RECID=5 STAMP=1181195526
+input archived log thread=1 sequence=10 RECID=6 STAMP=1181201607
+input archived log thread=1 sequence=11 RECID=7 STAMP=1181201685
+channel ch1: starting piece 1 at 01-OCT-24
+channel ch1: finished piece 1 at 01-OCT-24
+piece handle=/u01/backup/rman/Archive_20241001_0d36fd8l_1_1 tag=TAG20241001T073445 comment=NONE
+channel ch1: backup set complete, elapsed time: 00:00:07
+Finished backup at 01-OCT-24
+
+Starting backup at 01-OCT-24
+channel ch1: starting compressed full datafile backup set
+channel ch1: specifying datafile(s) in backup set
+input datafile file number=00001 name=/u01/app/oracle/oradata/PRIMARY/system01.dbf
+input datafile file number=00003 name=/u01/app/oracle/oradata/PRIMARY/sysaux01.dbf
+input datafile file number=00004 name=/u01/app/oracle/oradata/PRIMARY/undotbs01.dbf
+input datafile file number=00007 name=/u01/app/oracle/oradata/PRIMARY/users01.dbf
+channel ch1: starting piece 1 at 01-OCT-24
+channel ch1: finished piece 1 at 01-OCT-24
+piece handle=/u01/backup/rman/Fullback_20241001_0e36fd8t_1_1 tag=TAG20241001T073452 comment=NONE
+channel ch1: backup set complete, elapsed time: 00:00:45
+Finished backup at 01-OCT-24
+
+Starting backup at 01-OCT-24
+current log archived
+channel ch1: starting compressed archived log backup set
+channel ch1: specifying archived log(s) in backup set
+input archived log thread=1 sequence=12 RECID=8 STAMP=1181201738
+channel ch1: starting piece 1 at 01-OCT-24
+channel ch1: finished piece 1 at 01-OCT-24
+piece handle=/u01/backup/rman/Archive_20241001_0f36fdaa_1_1 tag=TAG20241001T073538 comment=NONE
+channel ch1: backup set complete, elapsed time: 00:00:01
+Finished backup at 01-OCT-24
+
+Starting backup at 01-OCT-24
+channel ch1: starting full datafile backup set
+channel ch1: specifying datafile(s) in backup set
+including current control file in backup set
+channel ch1: starting piece 1 at 01-OCT-24
+channel ch1: finished piece 1 at 01-OCT-24
+piece handle=/u01/backup/rman/Controlback_20241001_0g36fdab_1_1 tag=TAG20241001T073539 comment=NONE
+channel ch1: backup set complete, elapsed time: 00:00:01
+Finished backup at 01-OCT-24
+
+Starting Control File and SPFILE Autobackup at 01-OCT-24
+piece handle=/u01/app/oracle/fast_recovery_area/PRIMARY/autobackup/2024_10_01/o1_mf_s_1181201741_mhqqnfmw_.bkp comment=NONE
+Finished Control File and SPFILE Autobackup at 01-OCT-24
+
+released channel: ch1
+
+RMAN>
+
+
+[oracle@PRIMARY ~]$ cd /u01/backup/rman/
+[oracle@PRIMARY rman]$ ll
+total 354604
+-rw-r-----. 1 oracle oinstall  51236352 Oct  1 07:34 Archive_20241001_0d36fd8l_1_1
+-rw-r-----. 1 oracle oinstall      7680 Oct  1 07:35 Archive_20241001_0f36fdaa_1_1
+-rw-r-----. 1 oracle oinstall  10682368 Oct  1 07:35 Controlback_20241001_0g36fdab_1_1
+-rw-r-----. 1 oracle oinstall 301187072 Oct  1 07:35 Fullback_20241001_0e36fd8t_1_1
+[oracle@PRIMARY rman]$
+
+
+
+Connected to:
+Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production
+Version 19.3.0.0.0
+
+SQL> select name from v$controlfile;
+
+NAME
+--------------------------------------------------------------------------------
+/u01/app/oracle/oradata/PRIMARY/control01.ctl
+/u01/app/oracle/fast_recovery_area/PRIMARY/control02.ctl
+
+rm *
+
+SQL> select name from v$datafile;
+
+NAME
+--------------------------------------------------------------------------------
+/u01/app/oracle/oradata/PRIMARY/system01.dbf
+/u01/app/oracle/oradata/PRIMARY/sysaux01.dbf
+/u01/app/oracle/oradata/PRIMARY/undotbs01.dbf
+/u01/app/oracle/oradata/PRIMARY/users01.dbf
+
+rm *
+
+
+SQL> shut immediate;
+Database closed.
+Database dismounted.
+ORACLE instance shut down.
+SQL>
+
+
+[oracle@PRIMARY rman]$ cd /u01/app/oracle/oradata/PRIMARY/
+[oracle@PRIMARY PRIMARY]$ ll
+total 2467760
+-rw-r-----. 1 oracle oinstall  10600448 Oct  1 07:38 control01.ctl
+-rw-r-----. 1 oracle oinstall 209715712 Oct  1 07:38 redo01.log
+-rw-r-----. 1 oracle oinstall 209715712 Oct  1 07:34 redo02.log
+-rw-r-----. 1 oracle oinstall 209715712 Oct  1 07:35 redo03.log
+-rw-r-----. 1 oracle oinstall 576724992 Oct  1 07:38 sysaux01.dbf
+-rw-r-----. 1 oracle oinstall 943726592 Oct  1 07:38 system01.dbf
+-rw-r-----. 1 oracle oinstall  33562624 Oct  1 02:16 temp01.dbf
+-rw-r-----. 1 oracle oinstall 356524032 Oct  1 07:38 undotbs01.dbf
+-rw-r-----. 1 oracle oinstall   5251072 Oct  1 07:38 users01.dbf
+[oracle@PRIMARY PRIMARY]$ rm *
+
+
+[oracle@PRIMARY fast_recovery_area]$ cd PRIMARY/
+[oracle@PRIMARY PRIMARY]$ ll
+total 10352
+drwxr-x---. 3 oracle oinstall       24 Oct  1 02:08 archivelog
+drwxr-x---. 3 oracle oinstall       24 Oct  1 02:57 autobackup
+drwxr-x---. 3 oracle oinstall       24 Oct  1 05:51 backupset
+-rw-r-----. 1 oracle oinstall 10600448 Oct  1 07:38 control02.ctl
+drwxr-x---. 2 oracle oinstall        6 Oct  1 02:10 onlinelog
+[oracle@PRIMARY PRIMARY]$ ll
+total 10352
+drwxr-x---. 3 oracle oinstall       24 Oct  1 02:08 archivelog
+drwxr-x---. 3 oracle oinstall       24 Oct  1 02:57 autobackup
+drwxr-x---. 3 oracle oinstall       24 Oct  1 05:51 backupset
+-rw-r-----. 1 oracle oinstall 10600448 Oct  1 07:38 control02.ctl
+drwxr-x---. 2 oracle oinstall        6 Oct  1 02:10 onlinelog
+[oracle@PRIMARY PRIMARY]$ rm *
+
+
+
+
+
+QL> startup nomount;
+ORACLE instance started.
+
+Total System Global Area  855635584 bytes
+Fixed Size                  8902272 bytes
+Variable Size             239075328 bytes
+Database Buffers          603979776 bytes
+Redo Buffers                3678208 bytes
+SQL> exit
+Disconnected from Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production
+Version 19.3.0.0.0
+[oracle@PRIMARY ~]$ rman target /
+
+Recovery Manager: Release 19.0.0.0.0 - Production on Tue Oct 1 07:44:19 2024
+Version 19.3.0.0.0
+
+Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reserved.
+
+connected to target database: PRIMARY (not mounted)
+
+RMAN> restore controlfile from '/u01/backup/rman/Controlback_20241001_0g36fdab_1_1';
+
+Starting restore at 01-OCT-24
+using target database control file instead of recovery catalog
+allocated channel: ORA_DISK_1
+channel ORA_DISK_1: SID=427 device type=DISK
+
+channel ORA_DISK_1: restoring control file
+channel ORA_DISK_1: restore complete, elapsed time: 00:00:01
+output file name=/u01/app/oracle/oradata/PRIMARY/control01.ctl
+output file name=/u01/app/oracle/fast_recovery_area/PRIMARY/control02.ctl
+Finished restore at 01-OCT-24
+
+
+
+RMAN> sql 'alter database mount' ;
+
+sql statement: alter database mount
+released channel: ORA_DISK_1
+
+
+RMAN> catalog start with '/u01/backup/rman';
+
+Starting implicit crosscheck backup at 01-OCT-24
+allocated channel: ORA_DISK_1
+channel ORA_DISK_1: SID=434 device type=DISK
+Crosschecked 7 objects
+Finished implicit crosscheck backup at 01-OCT-24
+
+Starting implicit crosscheck copy at 01-OCT-24
+using channel ORA_DISK_1
+Finished implicit crosscheck copy at 01-OCT-24
+
+searching for all files in the recovery area
+cataloging files...
+no files cataloged
+
+searching for all files that match the pattern /u01/backup/rman
+
+List of Files Unknown to the Database
+=====================================
+File Name: /u01/backup/rman/Controlback_20241001_0g36fdab_1_1
+
+Do you really want to catalog the above files (enter YES or NO)? yes
+cataloging files...
+cataloging done
+
+List of Cataloged Files
+=======================
+File Name: /u01/backup/rman/Controlback_20241001_0g36fdab_1_1
+
+
+RMAN> restore database;
+
+Starting restore at 01-OCT-24
+using channel ORA_DISK_1
+
+channel ORA_DISK_1: starting datafile backup set restore
+channel ORA_DISK_1: specifying datafile(s) to restore from backup set
+channel ORA_DISK_1: restoring datafile 00001 to /u01/app/oracle/oradata/PRIMARY/system01.dbf
+channel ORA_DISK_1: restoring datafile 00003 to /u01/app/oracle/oradata/PRIMARY/sysaux01.dbf
+channel ORA_DISK_1: restoring datafile 00004 to /u01/app/oracle/oradata/PRIMARY/undotbs01.dbf
+channel ORA_DISK_1: restoring datafile 00007 to /u01/app/oracle/oradata/PRIMARY/users01.dbf
+channel ORA_DISK_1: reading from backup piece /u01/backup/rman/Fullback_20241001_0e36fd8t_1_1
+channel ORA_DISK_1: piece handle=/u01/backup/rman/Fullback_20241001_0e36fd8t_1_1 tag=TAG20241001T073452
+channel ORA_DISK_1: restored backup piece 1
+channel ORA_DISK_1: restore complete, elapsed time: 00:00:45
+Finished restore at 01-OCT-24
+
+
+
+RMAN> exit
+
+
+Recovery Manager complete.
+[oracle@PRIMARY ~]$ . oraenv
+ORACLE_SID = [PRIMARY] ?
+The Oracle base remains unchanged with value /u01/app/oracle
+[oracle@PRIMARY ~]$ !sq
+sqlplus / as sysdba
+
+SQL*Plus: Release 19.0.0.0.0 - Production on Tue Oct 1 07:47:37 2024
+Version 19.3.0.0.0
+
+Copyright (c) 1982, 2019, Oracle.  All rights reserved.
+
+
+Connected to:
+Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production
+Version 19.3.0.0.0
+
+SQL> alter database convert to physical standby;
+
+Database altered.
+
+SQL> recover standby database;
+ORA-00279: change 2255484 generated at 10/01/2024 07:34:53 needed for thread 1
+ORA-00289: suggestion :
+/u01/app/oracle/fast_recovery_area/PRIMARY/archivelog/2024_10_01/o1_mf_1_12_%u_.
+arc
+ORA-00280: change 2255484 for thread 1 is in sequence #12
+
+
+Specify log: {<RET>=suggested | filename | AUTO | CANCEL}
+
+
+
